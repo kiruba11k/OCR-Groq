@@ -65,6 +65,12 @@ You can obtain your API key from: https://console.groq.com/keys
 ```bash
 streamlit run app.py
 ```
+## Live Demo
+
+You can try the live version of this app here:
+
+[ Live Demo on Streamlit Cloud](https://lsocrgroq.streamlit.app/)
+
 
 ## Workflow Overview
 

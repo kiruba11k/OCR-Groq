@@ -5,4 +5,4 @@ numpy
 pandas
 langchain
 langchain-groq
-python spacy download en_core_web_sm
+spacy

@@ -6,4 +6,3 @@ pandas
 langchain
 langchain-groq
 spacy
-en-core-web-sm

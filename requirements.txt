@@ -1,6 +1,8 @@
 streamlit
-pandas
-opencv-python-headless
 pytesseract
-langchain_groq
+opencv-python
+numpy
+pandas
+spacy
 langchain
+langchain-groq

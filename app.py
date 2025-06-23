@@ -3,7 +3,7 @@ import pytesseract, cv2, numpy as np, pandas as pd, json, os, re
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 
-GROQ_API_KEY = "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"     
+GROQ_API_KEY = st.secrets["GROQ_API_KEY"]    
 USE_LLM      = bool(GROQ_API_KEY)
 
 if USE_LLM:

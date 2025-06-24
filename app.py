@@ -38,13 +38,12 @@ OCR text:
 
 import spacy, warnings
 warnings.filterwarnings("ignore", category=UserWarning)
-def load_spacy_model(model_name="en_core_web_sm"):
-    if importlib.util.find_spec(model_name) is None:
-        subprocess.run(["python", "-m", "spacy", "download", model_name])
-    return spacy.load(model_name)
-
-# Usage
-nlp = load_spacy_model()
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    from spacy.cli import download
+    download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
 
 DESIG_KWS = {
     "manager","director","engineer","head","officer","ceo","cto","cfo",

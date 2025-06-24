@@ -6,4 +6,4 @@ pandas
 langchain
 langchain-groq
 spacy
---user en_core_web_sm
+sudo pip install en_core_web_sm

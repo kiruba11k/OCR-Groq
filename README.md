@@ -86,7 +86,7 @@ You can try the live version of this app here:
 |---------------------------|---------------------------------------------------------------------------------------------------|
 | **Model**                 | `mistral-saba-24b` served through the Groq Cloud API via `langchain-groq`.                        |
 | **Context Window**        | Up to 32,768 tokens per request.                                                                  |
-| **Free-tier Rate Limits** | • 30 requests per minute (RPM)  • 14,400 requests per day (RPD)  • 40,000 tokens per minute (TPM) |
+| **Free-tier Rate Limits** | • 30 requests per minute (RPM)  • 1000 requests per day (RPD)  • 6000 tokens per minute (TPM)  • 500000 tokens per minute (TPM) |
 | **Throughput**            | Up to 330 tokens/second for Mistral SABA 24B on Groq hardware (based on internal benchmarks).     |
 | **Typical Latency**       | ~0.3s first-token latency, 95–150 tokens/second sustained output in independent tests.            |
 | **Concurrency / Scaling** | Free tier is limited by RPM/TPM above. Higher-tier plans allow up to 10× limits or batch mode.    |

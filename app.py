@@ -2,6 +2,9 @@ import streamlit as st
 import pytesseract, cv2, numpy as np, pandas as pd, json, os, re
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
+import spacy
+import subprocess
+import importlib.util
 
 GROQ_API_KEY = st.secrets["GROQ_API_KEY"]    
 USE_LLM      = bool(GROQ_API_KEY)
@@ -35,12 +38,13 @@ OCR text:
 
 import spacy, warnings
 warnings.filterwarnings("ignore", category=UserWarning)
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    from spacy.cli import download
-    download("en_core_web_sm")
-    nlp = spacy.load("en_core_web_sm")
+def load_spacy_model(model_name="en_core_web_sm"):
+    if importlib.util.find_spec(model_name) is None:
+        subprocess.run(["python", "-m", "spacy", "download", model_name])
+    return spacy.load(model_name)
+
+# Usage
+nlp = load_spacy_model()
 
 DESIG_KWS = {
     "manager","director","engineer","head","officer","ceo","cto","cfo",

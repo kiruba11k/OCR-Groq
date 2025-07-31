@@ -11,7 +11,7 @@ USE_LLM      = bool(GROQ_API_KEY)
 
 if USE_LLM:
     llm = ChatGroq(
-        model="qwen/qwen3-32b",
+        model="mixtral-8x7b-instruct",
         groq_api_key=GROQ_API_KEY,
         temperature=0.1,
     )

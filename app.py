@@ -85,25 +85,48 @@ def extract_lines(img_file):
     return [ln.strip() for ln in text.split("\n") if ln.strip()]
 
 def llm_extract(lines):
+    """Extract contacts using LLM if available, else fallback to spaCy."""
     if not USE_LLM:
         return spacy_guess(lines)
 
     try:
-        prompt  = prompt_tmpl.invoke({"ocr_text": "\n".join(lines)})
-        result  = llm.invoke(prompt)
-        output  = result.content.strip()
+        # Prepare prompt
+        prompt = prompt_tmpl.invoke({"ocr_text": "\n".join(lines)})
+        result = llm.invoke(prompt)
+
+        # Safely get output
+        output = getattr(result, "content", None) or getattr(result, "message", None)
+        if not output:
+            raise ValueError("Empty response from LLM")
+
+        output = output.strip()
 
         if debug:
-            st.subheader(" Raw LLM output"); st.code(output, language="json")
+            st.subheader("Raw LLM output (before cleanup)")
+            st.code(output, language="json")
 
-        output  = re.sub(r"^```json|```$", "", output).strip()
-        data    = json.loads(output)
+        # Clean up code fences and stray text
+        output = re.sub(r"^```(?:json)?\s*|\s*```$", "", output, flags=re.DOTALL).strip()
 
+        if debug:
+            st.subheader("Cleaned LLM output")
+            st.code(output, language="json")
+
+        # Try parsing JSON
+        try:
+            data = json.loads(output)
+        except json.JSONDecodeError as e:
+            st.warning(f"Invalid JSON from LLM, falling back to spaCy. Error: {e}")
+            return spacy_guess(lines)
+
+        # Ensure data is always a list
         if isinstance(data, dict):
             data = [data]
+
         return data
+
     except Exception as e:
-        st.error(f" LLM failed  falling back to spaCy ({e})")
+        st.error(f"LLM failed, falling back to spaCy ({e})")
         return spacy_guess(lines)
 
 files = st.file_uploader(" Upload JPG/PNG images", ["jpg","jpeg","png"], accept_multiple_files=True)
